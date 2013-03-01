@@ -12,16 +12,24 @@
   (package-install 'clojure-mode))
 
 (when (not (package-installed-p 'clojure-test-mode))
-  (package-refresh-contents)
-  (package-install 'clojure-test-mode))
+  (do 
+      (package-refresh-contents)
+      (package-install 'clojure-test-mode)))
 
 (when (not (package-installed-p 'paredit))
-  (package-refresh-contents)
-  (package-install 'paredit))
+  (do 
+      (package-refresh-contents)
+      (package-install 'paredit)))
 
 (when (not (package-installed-p 'nrepl))
-  (package-refresh-contents)
-  (package-install 'nrepl))
+  (do
+      (package-refresh-contents)
+      (package-install 'nrepl)))
+
+(when (not (package-installed-p 'rainbow-delimiters))
+  (do
+    (package-refresh-contents)
+    (package-install 'rainbow-delimiters)))
 
 
 ;; NREPL
@@ -35,7 +43,7 @@
 
 (add-hook 'nrepl-mode-hook 'paredit-mode)
 
-;(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
 
 ;; Meta key
 (setq mac-option-modifier 'super)
