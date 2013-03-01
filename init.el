@@ -1,5 +1,5 @@
 ;; Basic settings
-(setq cursor-type 'bar)
+(setq-default cursor-type 'bar)
 
 ;; Packages
 (require 'package)
@@ -11,7 +11,7 @@
   (package-install 'clojure-mode))
 
 (when (not (package-installed-p 'clojure-test-mode))
-  (package-install 'clojure-mode))
+  (package-install 'clojure-test-mode))
 
 (when (not (package-installed-p 'paredit))
   (package-install 'paredit))
