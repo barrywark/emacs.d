@@ -8,15 +8,19 @@
 (package-initialize)
 
 (when (not (package-installed-p 'clojure-mode))
+  (package-refresh-contents)
   (package-install 'clojure-mode))
 
 (when (not (package-installed-p 'clojure-test-mode))
+  (package-refresh-contents)
   (package-install 'clojure-test-mode))
 
 (when (not (package-installed-p 'paredit))
+  (package-refresh-contents)
   (package-install 'paredit))
 
 (when (not (package-installed-p 'nrepl))
+  (package-refresh-contents)
   (package-install 'nrepl))
 
 
