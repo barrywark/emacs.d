@@ -7,29 +7,20 @@
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-(when (not (package-installed-p 'clojure-mode))
-  (package-refresh-contents)
-  (package-install 'clojure-mode))
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-(when (not (package-installed-p 'clojure-test-mode))
-  (do 
-      (package-refresh-contents)
-      (package-install 'clojure-test-mode)))
+(defvar barrywark/my-packages '(clojure-mode
+				paredit
+				nrepl
+				rainbow-delimiters
+				markdown-mode
+				textmate
+				find-file-in-project))
 
-(when (not (package-installed-p 'paredit))
-  (do 
-      (package-refresh-contents)
-      (package-install 'paredit)))
-
-(when (not (package-installed-p 'nrepl))
-  (do
-      (package-refresh-contents)
-      (package-install 'nrepl)))
-
-(when (not (package-installed-p 'rainbow-delimiters))
-  (do
-    (package-refresh-contents)
-    (package-install 'rainbow-delimiters)))
+(dolist (p barrywark/my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
 
 ;; NREPL
@@ -42,9 +33,31 @@
 (setq nrepl-popup-stacktraces nil)
 
 (add-hook 'nrepl-mode-hook 'paredit-mode)
-
 (add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
+
+;; General programming
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; Meta key
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
+
+
+;; Markdown
+(eval-after-load "markdown"
+  '(define-key markdown-mode-map (kbd "C-j") 'markdown-enter-key))
+
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
+
+;; TextMate
+(eval-after-load 'textmate
+  '(define-key *textmate-mode-map* [(super shift t)] 'helm-imenu))
+
+(add-hook 'prog-mode-hook 'barrywark/turn-on-textmate-mode)
+
+(defun barrywark/turn-on-textmate-mode ()
+  (textmate-mode 1))
+
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)
+(remove-hook 'text-mode-hook 'turn-on-flyspell)
